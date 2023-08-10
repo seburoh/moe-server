@@ -34,6 +34,22 @@ const db = mysql.createPool({
     queueLimit: 0,
 });
 
+/*
+ * Return HTML for the / end point.
+ * This is a nice location to document your web service API
+ * Create a web page in HTML/CSS and have this end point return it.
+ * Look up the node module 'fs' ex: require('fs');
+ */
+app.get("/", (request, response) => {
+    //this is a Web page so set the content-type to HTML
+    response.writeHead(200, { "Content-Type": "text/html" });
+    for (i = 1; i < 7; i++) {
+      //write a response to the client
+      response.write("<h" + i + ' style="color:blue">Hello World!</h' + i + ">");
+    }
+    response.end(); //end the response
+  });
+
 /**
  * Endpoint test for basic text results of stored pokemon data.
  * Example URL: http://localhost:3001/pokes
