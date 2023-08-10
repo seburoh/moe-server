@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql2');
 
-const port = 3001; // Replace this with your desired port number
+// const port = 3001; // Replace this with your desired port number
+const port = process.env.PORT || 3001;
 
 // Configure static file serving for the "public" folder
 app.use(express.static('public'));
