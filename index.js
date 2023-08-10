@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql2');
 
-// const port = 3001; // Replace this with your desired port number
 const port = process.env.PORT || 3001;
 
 // Configure static file serving for the "public" folder
@@ -16,24 +15,27 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Database connection
-const db = mysql.createPool({
-    //Remote DB
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_BASE,
-
-    //Local DB
-    // host: 'localhost',  // Change to localhost
-    // port: 3306,         // Specify the port
-    // user: 'root',       // Use the root user
-    // password: 'PW',  // Use the specified password
-    // database: 'pokesand', // Replace if needed
-
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-});
+const db = (port !== 3001)
+    ? mysql.createPool({
+        //Remote DB
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        database: process.env.DB_BASE,
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0,
+    }) : mysql.createPool({
+        //Local DB
+        host: 'localhost',  // Change to localhost
+        port: 3306,         // Specify the port
+        user: 'root',       // Use the root user
+        password: 'PW',  // Use the specified password
+        database: 'pokesand', // Replace if needed
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0,
+    });
 
 /*
  * Return HTML for the / end point.
