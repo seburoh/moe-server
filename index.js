@@ -18,10 +18,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Database connection
 const db = mysql.createPool({
     //Remote DB
-    host: 'us-cdbr-east-06.cleardb.net',
-    user: 'bbc1d236a2fdf8',
-    password: 'c0f12074',
-    database: 'heroku_7dd2ee314208c5d',
+    // host: 'us-cdbr-east-06.cleardb.net',
+    // user: 'bbc1d236a2fdf8',
+    // password: 'c0f12074',
+    // database: 'heroku_7dd2ee314208c5d',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_BASE,
 
     //Local DB
     // host: 'localhost',  // Change to localhost
@@ -45,11 +49,11 @@ app.get("/", (request, response) => {
     //this is a Web page so set the content-type to HTML
     response.writeHead(200, { "Content-Type": "text/html" });
     for (i = 1; i < 7; i++) {
-      //write a response to the client
-      response.write("<h" + i + ' style="color:blue">Hello World!</h' + i + ">");
+        //write a response to the client
+        response.write("<h" + i + ' style="color:#5FE88D">moe moe kyun</h' + i + ">");
     }
     response.end(); //end the response
-  });
+});
 
 /**
  * Endpoint test for basic text results of stored pokemon data.
@@ -141,7 +145,7 @@ app.get("/pokeData/:national_id", (req, res) => {
             res.status(404).send("Valid pokes not found");
         } else {
             res.setHeader('Content-Type', 'application/json');
-            res.status(200).json( rows[0] );
+            res.status(200).json(rows[0]);
         }
     });
 });
